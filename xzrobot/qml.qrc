@@ -162,5 +162,7 @@
         <file>images/xt1.png</file>
         <file>images/d1.png</file>
         <file>images/3Ddemo.png</file>
+        <file>InitShow.qml</file>
+        <file>ShowState.qml</file>
     </qresource>
 </RCC>

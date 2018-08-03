@@ -5,7 +5,7 @@ import QtQuick.Window 2.2
 
 Window {
     visible: true
-    width: 1024
+    width: 1000
     height: 600
     title: qsTr("XZ transferRob")
     Item{
@@ -29,6 +29,7 @@ Window {
                     Row{
                         Rectangle{
                             width:20;height:20;
+                            radius: 5;
                             color:"#57A0F7";
                         }
                         Text{
@@ -38,41 +39,19 @@ Window {
                     }
                     GroupBox{
                         id: init;
-                        //title: qsTr("Init");
-                        width: 600; height: 180;
-                        Column{
-                            spacing: 10;
-                            TextField{
-                                style:TextFieldStyle{
-                                    textColor: "black";
-                                    background: Rectangle{
-                                        radius: 2;
-                                        implicitHeight: 24;
-                                        implicitWidth: 100;
-                                        border.color: "#333";
-                                        border.width: 1;
-                                    }
-                                }
-                            }
-                            TextField{
-
-                            }
-                            TextArea{
-                                id:textview;
-                                //anchors.fill: parent;
-                                wrapMode: TextEdit.WordWrap;
-                                style: TextAreaStyle{
-                                    backgroundColor: "black";
-                                    textColor: "green";
-                                    selectionColor: "steelblue";
-                                    selectedTextColor: "#A00000";
-                                }
+                        width: 600; height: 200;
+                        Loader{
+                            id: showState;
+                            width: 550;
+                            //height: 180;
+                            source:"ShowState.qml";
+                            onLoaded: {
+                                item.color = "#FFFFFF";
                             }
                         }
                     }
                     GroupBox{
                         id: selectJbi;
-                        //title: qsTr("selectJbi");
                         width: 600;height: 180;
                         CheckBox{
                             text: "open";
@@ -81,7 +60,6 @@ Window {
                     }
                     GroupBox{
                         id: monitor;
-                        //title: qsTr("monitor");
                         width: 600;height: 180;
                         CheckBox{
                             text: "open";
