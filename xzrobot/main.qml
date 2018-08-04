@@ -27,6 +27,7 @@ Window {
                 }
                 Column{
                     Row{
+                        spacing: 5;
                         Rectangle{
                             width:20;height:20;
                             radius: 5;

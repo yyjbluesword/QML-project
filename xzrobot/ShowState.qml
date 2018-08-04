@@ -46,122 +46,33 @@ Rectangle {
             }
         }
     }
-    Row{
-        id: rowTest;
-        anchors.top: title.bottom;
-        anchors.left: parent.left;
+    Repeater{
+        id: repeatCir;
+        model: 5;
+        Loader{
+            sourceComponent: cirCom;
+        }
+    }
+    Repeater{
+        id: repeatLine;
+        model: 4
+        Rectangle{
+            width: 80;
+            height: 5
+            color: blueColor;
+        }
+    }
+    Repeater{
+        id: repeatText;
+        model: [qsTr("openRb"), qsTr("RdySta"), qsTr("RobAct"), qsTr("RelBrk"), qsTr("RobOp")];
+        Text{
+            color: "gray";
+            text: modelData;
+        }
     }
 
-    Loader{
-        id:openState;
-        anchors.top: rowTest.bottom;
-        anchors.bottomMargin: 10;
-        anchors.left: parent.left;
-        anchors.leftMargin: 50;
-        sourceComponent: cirCom;
-    }
-
-    Rectangle{
-        id:line1;
-        anchors.left: openState.right;
-        anchors.leftMargin: -1;
-        anchors.verticalCenter: openState.verticalCenter;
-        width:80;
-        height:5;
-        color: blueColor
-    }
-    Loader{
-        id: readyStart;
-        anchors{left: line1.right; leftMargin: -1; verticalCenter: openState.verticalCenter;}
-        sourceComponent: cirCom;
-    }
-    Rectangle{
-        id: line2;
-        anchors.left: readyStart.right;
-        anchors.leftMargin: -1;
-        anchors.verticalCenter: openState.verticalCenter;
-        width: 80;
-        height: 5;
-        color: blueColor;
-    }
-
-    Loader{
-        id: robotActive;
-        anchors{left: line2.right; leftMargin: -1; verticalCenter: openState.verticalCenter;}
-        sourceComponent: cirCom;
-    }
-    Rectangle{
-        id: line3;
-        anchors.left: robotActive.right;
-        anchors.leftMargin: -1;
-        anchors.verticalCenter: openState.verticalCenter;
-        width: 80;
-        height: 5;
-        color: blueColor;
-    }
-    Loader{
-        id: releaveBreak;
-        anchors{left: line3.right; leftMargin: -1; verticalCenter: openState.verticalCenter;}
-        sourceComponent: cirCom;
-    }
-    Rectangle{
-        id: line4;
-        anchors.left: releaveBreak.right;
-        anchors.leftMargin: -1;
-        anchors.verticalCenter:openState.verticalCenter;
-        width: 80;
-        height: 5;
-        color: blueColor;
-    }
-    Loader{
-        id: robotOperate;
-        anchors{left: line4.right; leftMargin: -1; verticalCenter: openState.verticalCenter;}
-        sourceComponent: cirCom;
-    }
-
-    Text{
-        id:openStateText;
-        text: "open"
-        anchors.top: openState.bottom;
-        anchors.topMargin: 5;
-        anchors.left: openState.left;
-        anchors.leftMargin: -5;
-    }
-    Text{
-        id: readyStartText;
-        text: "ReadyStart";
-        anchors.top: readyStart.bottom;
-        anchors.topMargin: 5;
-        anchors.left: readyStart.left;
-        anchors.leftMargin: -5;
-    }
-    Text{
-        id: robotActiveText;
-        text: "RobotAct";
-        anchors.top: robotActive.bottom;
-        anchors.topMargin: 5;
-        anchors.left: robotActive.left;
-        anchors.leftMargin: -5;
-    }
-    Text{
-        id: releaveBreakText;
-        text: "ReleaveBrk";
-        anchors.top: releaveBreak.bottom;
-        anchors.topMargin: 5;
-        anchors.left: releaveBreak.left;
-        anchors.leftMargin: -5;
-    }
-    Text{
-        id: robotOperateText;
-        text: "RobotOp";
-        anchors.top: robotOperate.bottom;
-        anchors.topMargin: 5;
-        anchors.left: robotOperate.left;
-        anchors.leftMargin: -5;
-    }
     Rectangle{
         id: buttonGroup;
-        anchors.top: openStateText.bottom;
         anchors.topMargin: 10;
         anchors.left: parent.left;
         anchors.leftMargin: 200;
@@ -212,5 +123,35 @@ Rectangle {
             color: "#FF5657";
             text: qsTr("Warning! Please keep the distance from the robot!");
         }
+    }
+    Component.onCompleted: {
+        var cir = repeatCir.itemAt(0);
+        var line = repeatLine.itemAt(0);
+        var text = repeatText.itemAt(0);
+        cir.anchors.left = title.left;
+        cir.anchors.leftMargin = 50;
+        cir.anchors.top = title.bottom;
+        cir.anchors.topMargin = 15;
+        line.anchors.left = cir.right;
+        line.anchors.leftMargin = -1;
+        line.anchors.verticalCenter = cir.verticalCenter;
+        text.anchors.top = cir.bottom;
+        text.anchors.topMargin = 5;
+        text.anchors.left = cir.left;
+        text.anchors.leftMargin = -5;
+        for(var i=1; i < repeatCir.count; i++){
+            repeatCir.itemAt(i).anchors.top = cir.top;
+            repeatCir.itemAt(i).anchors.left = repeatLine.itemAt(i-1).right;
+            repeatCir.itemAt(i).anchors.leftMargin = -1;
+            if(i < repeatLine.count){
+                repeatLine.itemAt(i).anchors.top = line.top;
+                repeatLine.itemAt(i).anchors.left = repeatCir.itemAt(i).right;
+                repeatLine.itemAt(i).anchors.leftMargin = -1;
+            }
+            repeatText.itemAt(i).anchors.top = text.top;
+            repeatText.itemAt(i).anchors.left = repeatCir.itemAt(i).left;
+            repeatText.itemAt(i).anchors.leftMargin = -5;
+        }
+        buttonGroup.anchors.top = text.bottom;
     }
 }
