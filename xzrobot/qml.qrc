@@ -164,5 +164,6 @@
         <file>images/3Ddemo.png</file>
         <file>InitShow.qml</file>
         <file>ShowState.qml</file>
+        <file>SelectJob.qml</file>
     </qresource>
 </RCC>

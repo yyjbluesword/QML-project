@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.2
 Rectangle {
     id: robotInit;
     property string blueColor : "#57A0F7"
+    property string grayColor : "gray"
     height: 100;
     Rectangle{
         id: title;
@@ -25,23 +26,26 @@ Rectangle {
             width: 30;
             height: 30;
             radius: 15;
-            color: blueColor;
+            color: state ? blueColor : grayColor;
+            property bool state: false;
             Canvas{
                 width: 30;
                 height: 30;
                 anchors.top: parent.top;
                 anchors.left: parent.left;
                 onPaint: {
-                    var ctx = getContext("2d");
-                    ctx.save();
-                    ctx.strokeStyle = "white";
-                    ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    ctx.moveTo(7,17);
-                    ctx.lineTo(12,22);
-                    ctx.lineTo(22,7);
-                    ctx.stroke();
-                    ctx.restore();
+                    if(state){
+                        var ctx = getContext("2d");
+                        ctx.save();
+                        ctx.strokeStyle = "white";
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(7,17);
+                        ctx.lineTo(12,22);
+                        ctx.lineTo(22,7);
+                        ctx.stroke();
+                        ctx.restore();
+                    }
                 }
             }
         }
@@ -57,9 +61,10 @@ Rectangle {
         id: repeatLine;
         model: 4
         Rectangle{
+            property bool state: false;
             width: 80;
             height: 5
-            color: blueColor;
+            color: state? blueColor : grayColor;
         }
     }
     Repeater{
@@ -153,5 +158,8 @@ Rectangle {
             repeatText.itemAt(i).anchors.leftMargin = -5;
         }
         buttonGroup.anchors.top = text.bottom;
+        for(var j = 0; j < repeatCir.count; j++){
+            repeatCir.itemAt(j).state = false;
+        }
     }
 }
